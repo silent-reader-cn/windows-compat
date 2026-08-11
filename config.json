@@ -1,0 +1,22 @@
+{
+  "fixes": {
+    "workdir_cjk": {
+      "enabled": true,
+      "priority": 1,
+      "risk": "low",
+      "description": "允许 terminal workdir 参数使用中文/Unicode 路径（如 末世生存小队）。原 _WORKDIR_SAFE_RE 只允许 ASCII 字符。"
+    },
+    "bash_safe_path": {
+      "enabled": true,
+      "priority": 2,
+      "risk": "medium",
+      "description": "修复原生 Win32 程序（rg、node lint）收到 MSYS /d/x 路径形式的 bug：改为返回 D:/x 前斜杠形式（bash 内部命令与原生程序通吃）。修复 search_files 绝对路径 os-error-3 / 静默空结果、phantom lint 误报。"
+    },
+    "atomic_write": {
+      "enabled": true,
+      "priority": 3,
+      "risk": "medium",
+      "description": "file 工具原子写去 bash 化：纯 Python tempfile+os.replace 实现，不再依赖 bash 脚本。根治 WSL-bash 回退导致的全部 file 工具故障（unexpected EOF 类），并减少每次写入的进程开销。"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+name: windows-compat
+version: "1.0.0"
+description: "Windows compatibility fixes collection — native path form for rg/lint (search_files fix), CJK workdir support, bash-free atomic write. Each fix individually toggleable via config.json with documented priority."
+author: Yuzu (柚子)

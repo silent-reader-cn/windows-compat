@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Runtime artifacts (written by the plugin in a live Hermes install)
+loaded.flag
+fixes/path-debug.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
