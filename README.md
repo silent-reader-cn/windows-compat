@@ -31,6 +31,13 @@ the official plugin mechanism — no source patches, survives Hermes upgrades.
 | P1 | `workdir_cjk` | low | Terminal `workdir` accepts Unicode/CJK paths; still blocks shell metacharacters |
 | P2 | `bash_safe_path` | medium | Paths are emitted as `D:/x` forward-slash form — accepted by BOTH bash builtins and native Win32 programs. Fixes `search_files` + linters on Windows |
 | P3 | `atomic_write` | medium | File writes use pure Python (`tempfile` + `os.replace`) instead of a bash script — immune to bash/WSL backend failures, one fewer subprocess per write |
+| P4 | `device_path_guard` | low | Windows device-path read guard was a silent no-op (`normpath` yields backslashes, never matching the POSIX `/dev` + `/proc/*/environ` blocklist). Issue #69373 |
+| P5 | `memory_lock` | medium | Windows `memory` tool crashed with `Errno 36` (EDEADLK) — bare `msvcrt.locking(LK_LOCK)` under the multi-threaded gateway. Adds jittered retry + graceful lock-free degrade. Issue #31738 |
+| P6 | `sensitive_path_guard` | low | Windows sensitive-path write guard (`/etc/` etc.) never matched backslash-normalized paths — file tools could write system files. Issue #78079 / #76247 |
+| P7 | `mcp_selector_loop` | medium | Windows MCP stdio servers hung — background event loop used `ProactorEventLoop`; now forced to `SelectorEventLoop`. Issue #61444 / PR #61445 |
+| P8 | `kanban_zombie` | medium | Windows kanban workers kept running after `complete` (zombie processes mutating browser/workspace). Completes now reap the worker process tree. Issue #61923 |
+| P9 | `uninstall_rmtree` | low | Windows `hermes uninstall` left data behind — `rmtree` fails on read-only/locked files; now chmod-then-retry without aborting. Issue #34185 / PR #34364 |
+| P10 | `update_nul_preflight` | low | Windows `hermes update` hung in `git stash` — reserved device names (`nul`, `con`, …) break git. Preflight renames them before autostash. Issue #57081 / PR #57212 |
 
 ## Install
 
@@ -50,9 +57,16 @@ All fixes are enabled by default. Toggle any of them in `config.json`:
 ```json
 {
   "fixes": {
-    "workdir_cjk":    { "enabled": true },
-    "bash_safe_path": { "enabled": true },
-    "atomic_write":   { "enabled": true }
+    "workdir_cjk":          { "enabled": true },
+    "bash_safe_path":       { "enabled": true },
+    "atomic_write":         { "enabled": true },
+    "device_path_guard":    { "enabled": true },
+    "memory_lock":          { "enabled": true },
+    "sensitive_path_guard": { "enabled": true },
+    "mcp_selector_loop":    { "enabled": true },
+    "kanban_zombie":        { "enabled": true },
+    "uninstall_rmtree":     { "enabled": true },
+    "update_nul_preflight": { "enabled": true }
   }
 }
 ```
