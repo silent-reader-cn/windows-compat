@@ -17,6 +17,48 @@
       "priority": 3,
       "risk": "medium",
       "description": "file 工具原子写去 bash 化：纯 Python tempfile+os.replace 实现，不再依赖 bash 脚本。根治 WSL-bash 回退导致的全部 file 工具故障（unexpected EOF 类），并减少每次写入的进程开销。"
+    },
+    "device_path_guard": {
+      "enabled": true,
+      "priority": 1,
+      "risk": "low",
+      "description": "修复 Windows 设备路径读取守卫静默失效 (#69373)：normpath 反斜杠匹配不上 POSIX 黑名单，/dev + /proc/*/environ 守卫失效。patch 在 normpath 后折叠反斜杠。"
+    },
+    "memory_lock": {
+      "enabled": true,
+      "priority": 1,
+      "risk": "medium",
+      "description": "修复 Windows memory 工具 Errno 36 deadlock (#31738)：msvcrt.locking 多线程 EDEADLK，加有限重试+优雅降级。"
+    },
+    "sensitive_path_guard": {
+      "enabled": true,
+      "priority": 1,
+      "risk": "low",
+      "description": "修复 Windows 敏感路径写守卫失效 (#78079)：POSIX 前缀比对反斜杠路径不匹配，归一化后比对。"
+    },
+    "mcp_selector_loop": {
+      "enabled": true,
+      "priority": 1,
+      "risk": "medium",
+      "description": "修复 Windows MCP stdio 挂死 (#61444)：后台循环改用 SelectorEventLoop 替代 ProactorEventLoop。"
+    },
+    "kanban_zombie": {
+      "enabled": true,
+      "priority": 2,
+      "risk": "medium",
+      "description": "修复 Windows kanban 僵尸 worker (#61923)：complete 后清理 worker 进程树，避免继续操作浏览器/删文件。"
+    },
+    "uninstall_rmtree": {
+      "enabled": true,
+      "priority": 4,
+      "risk": "low",
+      "description": "修复 Windows uninstall 文件锁残留 (#34185)：rmtree 遇只读/锁文件先 chmod 再重试，不中断卸载。"
+    },
+    "update_nul_preflight": {
+      "enabled": true,
+      "priority": 2,
+      "risk": "low",
+      "description": "修复 Windows update 卡在 git stash (#57081)：autostash 前检测 Windows 保留设备名文件 (nul 等) 并重命名。"
     }
   }
 }

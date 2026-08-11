@@ -15,3 +15,6 @@ fixes/path-debug.log
 .idea/
 .DS_Store
 Thumbs.db
+
+# Temporary audit workspace (upstream issue/PR analysis data, not part of the plugin)
+hermes-win-audit/

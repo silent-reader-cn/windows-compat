@@ -38,6 +38,13 @@ _DEFAULT_FIXES = {
     "workdir_cjk": {"enabled": True},
     "bash_safe_path": {"enabled": True},
     "atomic_write": {"enabled": True},
+    "update_nul_preflight": {"enabled": True},
+    "uninstall_rmtree": {"enabled": True},
+    "kanban_zombie": {"enabled": True},
+    "mcp_selector_loop": {"enabled": True},
+    "sensitive_path_guard": {"enabled": True},
+    "memory_lock": {"enabled": True},
+    "device_path_guard": {"enabled": True},
 }
 
 _INSTALLED: set[str] = set()
